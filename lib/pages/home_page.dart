@@ -12,6 +12,34 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+
+                ],
+              ),
+              Text(""),
+              SizedBox(),
+              // there is a searchbar
+              TextField(),
+              Text("Your Pick"),
+              // green transparant container
+              Container(
+              
+              ),
+              
+              Text(""),
+              //...
+
+              
+            ],
+          ),
+        )
+        ),
     
     );
   }
