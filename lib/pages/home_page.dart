@@ -360,8 +360,26 @@ class _HomePageState extends State<HomePage> {
                           ),
                     )
                 ],
-              )
+              ),
               //...
+              SizedBox(height:10),
+              Container(
+                height: 70,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color:Color.fromARGB(212, 47, 47, 47),
+                  borderRadius: BorderRadius.circular(5)
+                ),
+                child: Center(
+                  child: Text(
+                    "One day in this app is 8 working hours.",
+                    style: TextStyle(
+                      color: Colors.white
+                    ),
+                    ),
+                ),
+              )
+              
 
               
             ],
