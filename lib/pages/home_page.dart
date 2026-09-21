@@ -180,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                   filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
                   child: Container(
                     width: double.infinity,
-                    height: 200,
+                    height: 240,
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -198,7 +198,93 @@ class _HomePageState extends State<HomePage> {
                       ]
                
                     ),
-                    //child
+                    child:Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(42, 35, 134, 88).withValues(alpha: 0.45),
+                                borderRadius: BorderRadius.circular(50)
+                              ),
+                              child: Icon(
+                                Icons.timelapse_outlined,
+                                color: Colors.white,
+                              
+                                ),
+                            ),
+                            Text(
+                              "This Will Cost You",
+                              style: TextStyle(
+                                color: const Color.fromARGB(189, 252, 251, 251),
+                                fontSize: 18
+                              ),
+                              )
+                          ],
+                        ),
+                        Text(
+                          "9h 35m",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+
+                          ),
+                          ),
+                        Text(
+                          "About 1.2 working days of your time.",
+                          style: TextStyle(
+                            color: Color.fromARGB(189, 252, 251, 251),
+                          ),
+                          ),
+                        // thre is some cutter or ....
+                        SizedBox(height: 20,),
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  "hourly rate",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(189, 252, 251, 251),
+                          ),
+                                  ),
+                                Text(
+                                  "100 birr",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold
+                          ),
+                                  )
+                              ],
+                            ),
+                            Spacer(),
+                            Column(
+                              children: [
+                                Text(
+                                  "hourly rate",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(189, 252, 251, 251),
+                          ),
+                                  ),
+                                Text(
+                                  "1.2 days",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold
+                          ),
+                                  )
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    )
                   ),
                 ),
                
