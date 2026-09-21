@@ -8,8 +8,24 @@ HomePage({super.key});
 }
 
 class _HomePageState extends State<HomePage> {
+  double hrate=5;
+  double cost=400;
+  String totalh(double hourrate){
+    int totalhu= cost~/hourrate;
+    double totalm=cost % hourrate;
+    return "${totalhu}h ${totalm}m" ;
+
+  }
+  
+  String hoursToDaysAndHours(int totalHours) {
+  int days = totalHours ~/ 8;
+  int remainingHours = totalHours % 8;
+
+  return '$days.$remainingHours';
+}
   @override
   Widget build(BuildContext context) {
+    final totalHours = (cost / hrate).toInt();
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -226,7 +242,8 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                         Text(
-                          "9h 35m",
+                          totalh(hrate),
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 40,
@@ -235,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           ),
                         Text(
-                          "About 1.2 working days of your time.",
+                          "About ${hoursToDaysAndHours(totalHours)} working days of your time.",
                           style: TextStyle(
                             color: Color.fromARGB(189, 252, 251, 251),
                           ),
@@ -253,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                                   ),
                                 Text(
-                                  "100 birr",
+                                  "${hrate.round()} birr",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
@@ -266,13 +283,13 @@ class _HomePageState extends State<HomePage> {
                             Column(
                               children: [
                                 Text(
-                                  "hourly rate",
+                                  "working days",
                                   style: TextStyle(
                                     color: Color.fromARGB(189, 252, 251, 251),
                           ),
                                   ),
                                 Text(
-                                  "1.2 days",
+                                  hoursToDaysAndHours(totalHours),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 17,
@@ -304,7 +321,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   Spacer(),
                   Text(
-                    "100 birr",
+                    "${hrate.round()} birr",
                     style: TextStyle(
                                     color: const Color.fromARGB(255, 1, 132, 69).withValues(alpha: 0.6),
                                     fontSize: 20,
@@ -313,7 +330,17 @@ class _HomePageState extends State<HomePage> {
                     )
                 ],
               ),
-             // Slider(value: value, onChanged: onChanged),
+             Slider(
+              value: hrate,
+              min: 5,
+              max: 500, 
+              divisions: 495,
+              onChanged: (newvalue){
+                setState(() {
+                  hrate=newvalue;
+                });
+              }
+              ),
               Row(
                 children: [
                   Text(
