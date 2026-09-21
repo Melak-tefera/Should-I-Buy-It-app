@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:ui';
 class HomePage extends StatefulWidget {
 HomePage({super.key});
 
@@ -113,14 +113,97 @@ class _HomePageState extends State<HomePage> {
                     color: const Color.fromARGB(212, 47, 47, 47),
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Container(
+                          height: 50,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(237, 84, 84, 84),
+                            borderRadius: BorderRadius.circular(5)
+                          ),
+                          child: Icon(
+                            Icons.phone,
+                            size: 30,
+                            color: Colors.white,
+                            ),
+                        
+                        ),
+                      ),
+                      SizedBox(width: 20,),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Header",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold
+
+                            ),
+                            ),
+                          Text(
+                            "description ......",
+                            overflow:TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white
+
+                            ),
+                            )
+                        ],
+                      ),
+                      Spacer(),
+                      Text(
+                        "10000 birr",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                        ),
+                      SizedBox(width: 10,)
+                    ],
+                  ),
                 ),
               ),
 
-
+              SizedBox(height: 20,),
               // green transparant container
-              Container(
-              
-              ),
+             Padding(
+               padding: const EdgeInsets.symmetric(horizontal: 20),
+               child: ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(10),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                  child: Container(
+                    width: double.infinity,
+                    height: 200,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromARGB(255, 1, 132, 69).withValues(alpha: 0.12),
+                      border: Border.all(
+                        color: const Color(0xFF69F0AE).withValues(alpha: 0.45),
+                        width: 1.2,
+                        ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF00E676).withValues(alpha: 0.18),
+                          blurRadius: 24,
+                          spreadRadius: 2,
+                        )
+                      ]
+               
+                    ),
+                    //child
+                  ),
+                ),
+               
+               ),
+             ),
               
               Text(""),
               //...
