@@ -275,8 +275,8 @@ class _HomePageState extends State<HomePage> {
                                   "1.2 days",
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold
+                                    fontSize: 17,
+                                    
                           ),
                                   )
                               ],
@@ -290,8 +290,47 @@ class _HomePageState extends State<HomePage> {
                
                ),
              ),
+             SizedBox(height: 10,),
               
-              Text(""),
+              Row(
+                children: [
+                  Text(
+                    "Your hourly rate",
+                    style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold
+                          ),
+                    ),
+                  Spacer(),
+                  Text(
+                    "100 birr",
+                    style: TextStyle(
+                                    color: const Color.fromARGB(255, 1, 132, 69).withValues(alpha: 0.6),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold
+                          ),
+                    )
+                ],
+              ),
+             // Slider(value: value, onChanged: onChanged),
+              Row(
+                children: [
+                  Text(
+                    "5 birr",
+                    style: TextStyle(
+                                    color: Color.fromARGB(189, 252, 251, 251),
+                          ),
+                    ),
+                  Spacer(),
+                  Text(
+                    "500 birr",
+                    style: TextStyle(
+                                    color: Color.fromARGB(189, 252, 251, 251),
+                          ),
+                    )
+                ],
+              )
               //...
 
               
