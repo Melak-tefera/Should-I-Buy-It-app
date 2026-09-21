@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
+import 'package:should_i_buy_it/service/model.dart';
+import 'package:should_i_buy_it/service/apiservice.dart';
 class HomePage extends StatefulWidget {
 HomePage({super.key});
 
@@ -10,6 +12,71 @@ HomePage({super.key});
 class _HomePageState extends State<HomePage> {
   double hrate=5;
   double cost=400;
+  final _pricesApi = PricesApiService();
+  final _searchController = TextEditingController();
+  String _productName = 'Header';
+String _productDescription = 'description ......';
+String _productPriceText = '00 birr';
+
+  List<Product> _products = [];
+  bool _isLoading = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleSearch() async {
+  final query = _searchController.text.trim();
+  if (query.isEmpty) return;
+
+  setState(() {
+    _isLoading = true;
+    _error = null;
+  });
+
+  try {
+    final products = await _pricesApi.searchProducts(
+      query: query,
+      market: 'us', // or let user choose later
+    );
+
+    if (products.isEmpty) {
+      setState(() {
+        _isLoading = false;
+        _error = 'No products found';
+      });
+      return;
+    }
+
+    final first = products.first;
+
+    setState(() {
+      _products = products;
+      _isLoading = false;
+
+      // Update "Your Pick" data
+      _productName = first.name ?? 'Unknown';
+      _productDescription = first.description ?? 'No description';
+      _productPriceText =
+          first.price != null ? '${first.price!.toStringAsFixed(2)} ${first.currency ?? ''}' : 'Price unknown';
+
+      // Update cost so the green card recalculates
+      if (first.price != null) {
+        cost = first.price!;
+      }
+    });
+  } catch (e) {
+    setState(() {
+      _error = e.toString();
+      _isLoading = false;
+    });
+  }
+}
+
+
   String totalh(double hourrate){
     int totalhu= cost~/hourrate;
     double totalm=cost % hourrate;
@@ -90,23 +157,40 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(height: 10,),
               // there is a searchbar
               SearchBar(
-                leading: Icon(Icons.search, color: Colors.white, size: 26,),
-                hintText: "What to buy?", 
-                
-                backgroundColor: WidgetStateProperty.resolveWith((states) {return const Color(0xFF1E1E1E); }),
+                controller: _searchController,
+                leading: const Icon(Icons.search, color: Colors.white, size: 26),
+                hintText: "What to buy?",
+                backgroundColor: WidgetStateProperty.resolveWith((states) {
+                  return const Color(0xFF1E1E1E);
+                }),
                 hintStyle: WidgetStateProperty.all(
-                const TextStyle(
-                  color: Colors.white54, // lighter hint text
-                  fontSize: 16,
+                  const TextStyle(
+                    color: Colors.white54,
+                    fontSize: 16,
+                  ),
                 ),
-              ),
-              textStyle: WidgetStateProperty.all(
-                const TextStyle(
-                  color: Colors.white, // typed text color
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                textStyle: WidgetStateProperty.all(
+                  const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-  ),
+                trailing: [
+                  IconButton(
+                    icon: _isLoading
+                        ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          )
+                        : const Icon(Icons.arrow_forward, color: Colors.white),
+                    onPressed: _isLoading ? null : _handleSearch,
+                  ),
+                ],
               ),
               SizedBox(height: 10,),
               Align(
@@ -121,70 +205,69 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 10,),
               Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: Container(
-                  height: 70,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(212, 47, 47, 47),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Container(
-                          height: 50,
-                          width: 70,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(237, 84, 84, 84),
-                            borderRadius: BorderRadius.circular(5)
-                          ),
-                          child: Icon(
-                            Icons.phone,
-                            size: 30,
-                            color: Colors.white,
-                            ),
-                        
+              padding: const EdgeInsets.only(left: 16),
+              child: Container(
+                height: 70,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(212, 47, 47, 47),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Container(
+                        height: 50,
+                        width: 70,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(237, 84, 84, 84),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: const Icon(
+                          Icons.phone,
+                          size: 30,
+                          color: Colors.white,
                         ),
                       ),
-                      SizedBox(width: 20,),
-                      Column(
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Header",
-                            style: TextStyle(
+                            _productName,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20,
-                              fontWeight: FontWeight.bold
-
+                              fontWeight: FontWeight.bold,
                             ),
-                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           Text(
-                            "description ......",
-                            overflow:TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white
-
+                            _productDescription,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: Colors.white,
                             ),
-                            )
+                          ),
                         ],
                       ),
-                      Spacer(),
-                      Text(
-                        "10000 birr",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                        ),
-                      SizedBox(width: 10,)
-                    ],
-                  ),
+                    ),
+                    Text(
+                      _productPriceText,
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                  ],
                 ),
               ),
+            ),
 
               SizedBox(height: 20,),
               // green transparant container
