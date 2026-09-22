@@ -423,7 +423,7 @@ String _productPriceText = '00 birr';
                   hrate=newvalue;
                 });
               },
-              activeColor: Color.fromARGB(255, 1, 132, 69).withValues(alpha: 0.5),
+              activeColor: Color.fromARGB(255, 1, 132, 69).withValues(alpha: 0.6),
               inactiveColor: const Color.fromARGB(255, 90, 89, 89),
               
               ),
